@@ -2,14 +2,15 @@ class Openresty < FPM::Cookery::Recipe
   description 'a high performance web server and a reverse proxy server'
 
   name     'openresty'
-  version  '1.7.10.1'
-  revision 13
+  version  '1.9.3.1'
+  revision 1
   homepage 'http://openresty.org/'
   source   "http://openresty.org/download/ngx_openresty-#{version}.tar.gz"
-  sha256   '4fd0d73e5955319cee51c6fa574e254be4538a63ae3e673c35eacdf9d4bce679'
+  sha256   'dbcfd21f84431a7d13fe3c3656dcd9dd81236a8f7a114ac8d4afb86665f788bb'
 
   section 'httpd'
 
+# debian 7
   build_depends 'build-essential', 'git', 'libgeoip-dev', 'libpcre3-dev', 'zlib1g-dev', 'libssl-dev', 'libgd2-noxpm-dev', 'libperl-dev'
   depends       'libpcre3', 'zlib1g', 'libssl1.0.0', 'libgeoip1', 'libgd2-noxpm-dev'
 
