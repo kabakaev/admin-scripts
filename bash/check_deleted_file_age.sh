@@ -92,14 +92,18 @@ for pid in $deleted_file_holders_pid ; do
   done
 done
 
-critical_pid_string=`echo "${critical_pid_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '`
-warning_pid_string=`echo "${warning_pid_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '`
+critical_pid_string=`echo -n "${critical_pid_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '`
+warning_pid_string=`echo -n "${warning_pid_array[@]}" | tr ' ' '\n' | sort -u | tr '\n' ' '`
+critical_files_size_string=`numfmt --to=iec-i --suffix=B $critical_files_size 2>/dev/null || echo $critical_files_size`
+warning_files_size_string=`numfmt --to=iec-i --suffix=B $warning_files_size 2>/dev/null || echo $warning_files_size`
+critical_files_number=${#critical_files_array[@]}
+warning_files_number=${#critical_files_array[@]}
 
 if [ -n "$critical_files_array" ] && ([ -z "$opt_critical_size" ] || [ "$critical_files_size" -gt "$opt_critical_size" ]) ; then
-  echo "CRITICAL: deleted files are too old | Offending PIDs: ${critical_pid_string}"
+  echo "CRITICAL: deleted files are too old | Offending PIDs: ${critical_pid_string}. Total files size: ${critical_files_size_string}. Number of deleted files: ${critical_files_number}."
   exit $code_critical
 elif [ -n "$warning_files_array" ] && ([ -z "$opt_warning_size" ] || [ "$warning_files_size" -gt "$opt_warning_size" ]) ; then
-  echo "WARNING: deleted files are too old | Offending PIDs: ${warning_pid_string}"
+  echo "WARNING: deleted files are too old | Offending PIDs: ${warning_pid_string}. Total files size: ${warning_files_size_string}. Number of deleted files: ${warning_files_number}."
   exit $code_warning
 else
   echo "OK: no deleted files pass the given threshold"
