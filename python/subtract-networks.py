@@ -13,7 +13,6 @@ routed_str_list = [
 
 # list of (smaller) subnetworks that should not be routed via the tunnel
 excluded_str_list = [
-    '53.0.0.0/8',
     '10.0.0.0/8',
     '192.168.0.0/16',
     '169.254.0.0/16',
@@ -46,4 +45,8 @@ for excluded_net in excluded_net_list:
         routed_net_list.extend(excluded_net_list)
         log('routed_net_list: ' + ','.join(str(net) for net in routed_net_list))
 
-print( 'Resulting set: ' + '\n'.join(str(net) for net in routed_net_list) )
+print( 'Resulting set: \n' + '\n'.join(str(net) for net in routed_net_list) )
+
+print( 'Openvpn ccd routing table: \n' )
+for net in routed_net_list:
+    print('route "' + str(net.with_netmask).replace('/','  ') + '"' )
